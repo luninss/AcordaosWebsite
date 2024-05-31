@@ -1,5 +1,29 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .w3-card-4
+    header.w3-light-blue
+      h2.w3-center Acordaos
+    .w3-container
+      table.w3-table-all
+        thead
+          tr
+            th Processo
+            th Data
+            th Tribunal
+            th Relator
+        tbody
+          each acordao in acordaos
+            tr
+              td
+                a(href='/' + acordao.processo)= acordao.processo
+              td= acordao.data_acordao
+              td= acordao.tribunal
+              td= acordao.relator
+
+  .pagination.w3-left
+    if page > 1
+      a.w3-button(href=`/?page=${page-1}&limit=${limit}`) <
+  .pagination.w3-right
+    if page < totalPages
+      a.w3-button(href=`/?page=${page+1}&limit=${limit}`) >
