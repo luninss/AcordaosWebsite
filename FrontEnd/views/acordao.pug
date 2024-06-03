@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    title Acordão #{acordao.processo}
+    .w3-container
+        table.w3-table-all
+            tr
+                th Processo
+                th Data Acordao
+                th Tribunal
+                th Relator
+                th Descritores
+                th Votacao
+                th URL
+            tr
+                td #{acordao.processo}
+                td #{acordao.data_acordao}
+                td #{acordao.tribunal}
+                td #{acordao.relator}
+                td
+                    each desc in acordao.descritores
+                        p #{desc}
+                td #{acordao.votacao}
+                td 
+                    a(href=`//${acordao.url}`) URL

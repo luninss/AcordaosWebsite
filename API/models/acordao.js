@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId
 
 const AcordaoSchema = new mongoose.Schema({
+    _id : ObjectId,
     processo:  String,
     data_acordao:  Date,
     tribunal:  String, 
     relator:  String, 
-    descritores:  String, 
+    descritores:  [String], 
     numero_convencional:  String, 
     numero_documento:  String, 
     votacao:  String, 

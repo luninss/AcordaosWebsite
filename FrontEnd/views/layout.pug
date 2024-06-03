@@ -4,6 +4,53 @@ html
     title Acordãos
     meta(charset='utf-8')
     link(rel='stylesheet', href='/stylesheets/w3.css')
+    style.
+      .w3-sidebar {
+        width: 250px;
+        transition: width 0.3s;
+        background-color: #f1f1f1;
+      }
+      .w3-sidebar.collapsed {
+        width: 0;
+      }
+      .w3-main {
+        margin-left: 250px;
+        transition: margin-left 0.3s;
+      }
+      .w3-main.collapsed {
+        margin-left: 0;
+      }
+      .sidebar-header {
+        font-size: 1.5em;
+        padding: 16px;
+        text-align: center;
+        background-color: #333;
+        color: white;
+      }
+      .sidebar-item {
+        padding: 16px;
+        text-decoration: none;
+        color: black;
+        display: block;
+      }
+      .sidebar-item:hover {
+        background-color: #ddd;
+      }
   body
-    h1.w3-center Plataforma de Acordãos
-    block content
+    button.w3-button.w3-xlarge.w3-margin-left#toggleSidebar ☰
+    .w3-sidebar.w3-bar-block.w3-card.w3-animate-left(id='mySidebar')
+      .sidebar-header Menu
+      a.sidebar-item(href='/') Home
+      a.sidebar-item(href='/tribunal') Tribunais
+      a.sidebar-item(href='/profile') Profile
+      a.sidebar-item(href='/logout') Logout
+    .w3-main#mainContent
+      block content
+
+    script.
+      document.getElementById('toggleSidebar').onclick = function() {
+        var sidebar = document.getElementById('mySidebar');
+        var mainContent = document.getElementById('mainContent');
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('collapsed');
+      }

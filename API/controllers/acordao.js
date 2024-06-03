@@ -19,7 +19,7 @@ module.exports.list = async (page, limit) => {
 };
 
 module.exports.lookUp = async id => {
-  let data = await acordao.findOne({ processo: id }).exec();
+  let data = await acordao.findOne({ _id: id }).exec();
 
   if (data) {
     const formattedDate = new Date(data.data_acordao).toLocaleDateString('en-GB');
@@ -32,8 +32,25 @@ module.exports.lookUp = async id => {
   return data;
 };
 
+module.exports.listByTribunal = async (id, page, limit) => {
+  const skip = (page - 1) * limit;
+  const total = await acordao.countDocuments({ tribunal: id });
+  let data = await acordao.find({ tribunal: id }).skip(skip).limit(limit).exec();
+
+  // Format dates to DD-MM-YYYY
+  data = data.map(item => {
+    const formattedDate = new Date(item.data_acordao).toLocaleDateString('en-GB');
+    return {
+      ...item.toObject(),
+      data_acordao: formattedDate
+    };
+  });
+
+  return { data, total, totalPages: Math.ceil(total / limit) };
+}
+
 module.exports.update = async (id, data) => {
-  return await acordao.findOneAndUpdate({ processo: id }, data).exec();
+  return await acordao.findOneAndUpdate({ _id: id }, data).exec();
 };
 
 module.exports.insert = async data => {
@@ -42,5 +59,5 @@ module.exports.insert = async data => {
 };
 
 module.exports.delete = async id => {
-  return await acordao.deleteOne({ processo: id }).exec();
+  return await acordao.deleteOne({ _id: id }).exec();
 };

@@ -3,7 +3,7 @@ extends layout
 block content
   .w3-card-4
     header.w3-light-blue
-      h2.w3-center Acordaos
+      h2.w3-center Acordãos
     .w3-container
       table.w3-table-all
         thead
@@ -16,14 +16,15 @@ block content
           each acordao in acordaos
             tr
               td
-                a(href='/' + acordao.processo)= acordao.processo
+                a(href='/acordao/' + acordao._id)= acordao.processo
               td= acordao.data_acordao
-              td= acordao.tribunal
+              td
+                a(href='/tribunal/' + acordao.tribunal)= acordao.tribunal
               td= acordao.relator
 
   .pagination.w3-left
     if page > 1
-      a.w3-button(href=`/?page=${page-1}&limit=${limit}`) <
+      button.w3-button(type='button', onclick=`window.location.href='/?page=${page-1}&limit=${limit}'`) <
   .pagination.w3-right
     if page < totalPages
-      a.w3-button(href=`/?page=${page+1}&limit=${limit}`) >
+      button.w3-button(type='button', onclick=`window.location.href='/?page=${page+1}&limit=${limit}'`) >

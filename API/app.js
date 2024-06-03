@@ -3,19 +3,29 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
 
-var mongoose = require("mongoose");
-
-var mongoDB = "mongodb://127.0.0.1/ProjetoEW";
+var mongoDB = 'mongodb://127.0.0.1/ProjetoEW';
 mongoose.connect(mongoDB);
 var db = mongoose.connection;
-db.on("error", console.error.bind(console, "Erro de conexão ao MongoDB"));
-db.once("open", () => {
-  console.log("Conexão ao MongoDB realizada com sucesso");
+db.on('error', console.error.bind(console, 'Erro de conexão ao MongoDB'));
+db.once('open', () => {
+  console.log('Conexão ao MongoDB realizada com sucesso');
 });
 
-var acordaosRouter = require('./routes/acordao');
+// Passport configuration
+var User = require('./models/users');
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
+var usersRouter = require('./routes/users');
+var acordaosRouter = require('./routes/acordao');
+var loginRouter = require('./routes/login');
+var tribuanisRouter = require('./routes/tribunal');
 
 var app = express();
 
@@ -29,8 +39,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/acordaos', acordaosRouter);
+// Express session middleware
+app.use(session({
+  secret: 'your_secret_key', // Replace with a strong secret key
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set secure to true if using HTTPS
+}));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/acordaos', acordaosRouter);
+app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/tribunais', tribuanisRouter);
 
 
 // catch 404 and forward to error handler
