@@ -8,7 +8,7 @@ const api = 'http://localhost:16000/';
 router.get('/', function(req, res, next) {
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || 10;
-
+  tribunal = '';
   axios.get(`${api}acordaos?page=${page}&limit=${limit}`)
     .then(response => {
       res.render('index', { acordaos: response.data.acordaos, page: page, totalPages: response.data.totalPages });

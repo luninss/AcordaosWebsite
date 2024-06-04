@@ -1,13 +1,25 @@
 extends layout
 
 block content
-    title Tribunal #{tribunal.tribunal}
+  .w3-card-4
+    header.w3-light-blue
+      h2.w3-center Tribunais
     .w3-container
-        table.w3-table-all
+      table.w3-table-all
+        thead
+          tr
+            th Número de Acordaos
+            th Tribunal
+        tbody
+          each tribunal in tribunais
             tr
-                th Numero de Acordaos
-                th Tribunal
-            tr
-                td #{tribunal.numero_acordaos}
-                td #{tribunal.tribunal}
-                
+              td= tribunal.numero_acordaos
+              td
+                a(href='/acordao/tribunal/' + tribunal.tribunal)= tribunal.tribunal
+
+  .pagination.w3-left
+    if page > 1
+      button.w3-button(type='button', onclick=`window.location.href='/?page=${page-1}&limit=${limit}'`) <
+  .pagination.w3-right
+    if page < totalPages
+      button.w3-button(type='button', onclick=`window.location.href='/?page=${page+1}&limit=${limit}'`) >

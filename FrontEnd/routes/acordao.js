@@ -19,5 +19,19 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
+router.get('/tribunal/:id', function(req, res, next) {
+  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.limit) || 10;
+  tribunal = 'do tribunal ' + req.params.id;
+
+  axios.get(`${api}acordaos/tribunal/${req.params.id}`)
+    .then(response => {
+      res.render('index', { acordaos: response.data.acordaos, page: page, totalPages: response.data.totalPages});
+    })
+    .catch(error => {
+      res.render('error', { error: error });
+    });
+});
+
 
 module.exports = router;

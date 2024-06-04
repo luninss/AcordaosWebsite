@@ -5,27 +5,33 @@ html
     meta(charset='utf-8')
     link(rel='stylesheet', href='/stylesheets/w3.css')
     style.
+      body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
       .w3-sidebar {
+        height: 100%;
         width: 250px;
         transition: width 0.3s;
         background-color: #f1f1f1;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2; 
+        padding-top: 56px; 
       }
       .w3-sidebar.collapsed {
         width: 0;
+        padding-top: 56px; 
       }
       .w3-main {
         margin-left: 250px;
-        transition: margin-left 0.3s;
+        transition: margin-left 0.1s;
+        padding: 16px;
       }
       .w3-main.collapsed {
         margin-left: 0;
-      }
-      .sidebar-header {
-        font-size: 1.5em;
-        padding: 16px;
-        text-align: center;
-        background-color: #333;
-        color: white;
       }
       .sidebar-item {
         padding: 16px;
@@ -36,13 +42,19 @@ html
       .sidebar-item:hover {
         background-color: #ddd;
       }
+      #toggleSidebar {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 3; /* Ensure the button is on top of everything */
+      }
   body
-    button.w3-button.w3-xlarge.w3-margin-left#toggleSidebar ☰
+    button.w3-button.w3-xlarge#toggleSidebar ☰
     .w3-sidebar.w3-bar-block.w3-card.w3-animate-left(id='mySidebar')
-      .sidebar-header Menu
-      a.sidebar-item(href='/') Home
+      a.sidebar-item(href='/') Página Inicial
       a.sidebar-item(href='/tribunal') Tribunais
-      a.sidebar-item(href='/profile') Profile
+      a.sidebar-item(href='/pesquisa') Pesquisar
+      a.sidebar-item(href='/profile') Perfil
       a.sidebar-item(href='/logout') Logout
     .w3-main#mainContent
       block content

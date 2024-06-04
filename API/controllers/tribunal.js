@@ -5,16 +5,6 @@ module.exports.list = async (page, limit) => {
   const skip = (page - 1) * limit;
   const total = await tribunal.countDocuments();
   let data = await tribunal.find().skip(skip).limit(limit).exec();
-
-  // Format dates to DD-MM-YYYY
-  data = data.map(item => {
-    const formattedDate = new Date(item.data_tribunal).toLocaleDateString('en-GB');
-    return {
-      ...item.toObject(),
-      data_tribunal: formattedDate
-    };
-  });
-
   return { data, total, totalPages: Math.ceil(total / limit) };
 };
 

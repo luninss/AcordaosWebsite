@@ -16,6 +16,7 @@ router.get('/:id', function(req, res, next) {
       res.render('error', { error: error });
     });
 });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     let page = parseInt(req.query.page) || 1;
@@ -23,7 +24,7 @@ router.get('/', function(req, res, next) {
   
     axios.get(`${api}tribunais?page=${page}&limit=${limit}`)
       .then(response => {
-        res.render('index', { tribunais: response.data.tribunais, page: page, totalPages: response.data.totalPages });
+        res.render('tribunal', { tribunais: response.data.tribunais, page: page, totalPages: response.data.totalPages });
       })
       .catch(error => {
         res.render('error', { error: error });

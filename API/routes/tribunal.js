@@ -7,7 +7,7 @@ router.get('/', function(req, res) {
   let limit = parseInt(req.query.limit) || 10;
 
   tribunal.list(page, limit)
-    .then(result => res.jsonp({ tribunals: result.data, totalPages: result.totalPages }))
+    .then(result => res.jsonp({ tribunais: result.data, totalPages: result.totalPages }))
     .catch(error => res.jsonp(error));
 });
 

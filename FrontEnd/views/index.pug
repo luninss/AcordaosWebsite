@@ -1,30 +1,70 @@
 extends layout
 
 block content
+  style.
+    .fixed-width {
+      width: 17%; /* Adjust this value to achieve the desired width */
+    }
+    .descritores-width {
+      width: 32%;
+    }
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+    .pagination button {
+      background-color: #2196F3; /* W3.CSS light-blue color */
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border-radius: 4px;
+    }
+    .pagination button:hover {
+      background-color: #0b7dda; /* Darker shade for hover effect */
+    }
+
   .w3-card-4
     header.w3-light-blue
-      h2.w3-center Acordãos
+      h2.w3-center Acordãos #{tribunal}
     .w3-container
       table.w3-table-all
         thead
           tr
-            th Processo
-            th Data
-            th Tribunal
-            th Relator
+            th.fixed-width Processo
+            th.fixed-width Tribunal
+            th.fixed-width Data
+            th.fixed-width Relator
+            th.descritores-width Descritores
         tbody
           each acordao in acordaos
             tr
-              td
-                a(href='/acordao/' + acordao._id)= acordao.processo
-              td= acordao.data_acordao
-              td
-                a(href='/tribunal/' + acordao.tribunal)= acordao.tribunal
-              td= acordao.relator
+              td.fixed-width
+                a(href=`/acordao/${acordao._id}`)= acordao.processo
+              td.fixed-width
+                a(href=`/acordao/tribunal/${acordao.tribunal}`)= acordao.tribunal
+              td.fixed-width= acordao.data_acordao
+              td.fixed-width= acordao.relator
+              td.descritores-width
+                
+                if acordao.descritores
+                  - var descritoresToShow = acordao.descritores.slice(0, 3);
+                  - var hasMoreDescritores = acordao.descritores.length > 3;
+                  each descritor, index in descritoresToShow
+                    span= descritor
+                    if index < descritoresToShow.length - 1
+                      br
+                  if hasMoreDescritores
+                    span ... 
+                else 
+                  span - - -
 
-  .pagination.w3-left
-    if page > 1
-      button.w3-button(type='button', onclick=`window.location.href='/?page=${page-1}&limit=${limit}'`) <
-  .pagination.w3-right
-    if page < totalPages
-      button.w3-button(type='button', onclick=`window.location.href='/?page=${page+1}&limit=${limit}'`) >
+  .pagination
+    .w3-left
+      if page > 1
+        button(type='button', onclick=`window.location.href='/?page=${page-1}&limit=${limit}'`) &lt; Anterior
+    .w3-right
+      if page < totalPages
+        button(type='button', onclick=`window.location.href='/?page=${page+1}&limit=${limit}'`) Próximo &gt;
