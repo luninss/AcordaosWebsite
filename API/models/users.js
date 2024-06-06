@@ -5,9 +5,10 @@ const ObjectId = mongoose.Types.ObjectId
 const UserSchema = new mongoose.Schema({
     _id : ObjectId,
     username:  String,
-    password:  String,
+    hashedPassword:  String,
     name: String,
     level: String,
+    favorites: [String],
 }, { collection: 'Users' }) ;
 
 UserSchema.plugin(passportLocalMongoose);

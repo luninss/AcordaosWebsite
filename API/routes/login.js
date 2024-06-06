@@ -1,16 +1,10 @@
 const jwt = require('jsonwebtoken');
 var express = require('express');
 var router = express.Router();
-// Removed unused imports
-// var users = require('../controllers/users');
-// var auth = require('../auth/auth');
+var login = require('../controllers/login');
 
-// Endpoint to generate a token
-router.post('/', (req, res) => {
-  const user = { id: 3 }; // Example user
-  const token = jwt.sign({ user }, 'PROJETO-EW', { expiresIn: '1h' });
-  res.json({ token });
-});
+
+
 
 // Middleware to verify token
 function verifyToken(req, res, next) {
@@ -30,9 +24,5 @@ function verifyToken(req, res, next) {
   }
 }
 
-// Protected route
-router.get('/protected', verifyToken, (req, res) => {
-  res.json({ message: 'Protected route accessed!', user: req.user });
-});
 
 module.exports = router;

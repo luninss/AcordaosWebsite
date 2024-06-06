@@ -16,7 +16,7 @@ module.exports.list = () => {
 }
 
 module.exports.getUser = id => {
-    return User.findOne({_id:id})
+    return User.findOne({username:id})
             .then(resposta => {
                 return resposta
             })
@@ -37,7 +37,7 @@ module.exports.addUser = u => {
 
 
 module.exports.updateUser = (id, info) => {
-    return User.updateOne({_id:id}, info)
+    return User.updateOne({username:id}, info)
             .then(resposta => {
                 return resposta
             })
@@ -47,7 +47,7 @@ module.exports.updateUser = (id, info) => {
 }
 
 module.exports.updateUserStatus = (id, status) => {
-    return User.updateOne({_id:id}, {active: status})
+    return User.updateOne({username:id}, {active: status})
             .then(resposta => {
                 return resposta
             })
@@ -57,7 +57,7 @@ module.exports.updateUserStatus = (id, status) => {
 }
 
 module.exports.updateUserPassword = (id, pwd) => {
-    return User.updateOne({_id:id}, pwd)
+    return User.updateOne({username:id}, pwd)
             .then(resposta => {
                 return resposta
             })
@@ -67,7 +67,7 @@ module.exports.updateUserPassword = (id, pwd) => {
 }
 
 module.exports.deleteUser = id => {
-    return User.deleteOne({_id:id})
+    return User.deleteOne({username:id})
             .then(resposta => {
                 return resposta
             })
