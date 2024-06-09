@@ -2,10 +2,8 @@ const mongoose = require('mongoose');
 const tribunal = require('../models/tribunal');
 
 module.exports.list = async (page, limit) => {
-  const skip = (page - 1) * limit;
-  const total = await tribunal.countDocuments();
-  let data = await tribunal.find().skip(skip).limit(limit).exec();
-  return { data, total, totalPages: Math.ceil(total / limit) };
+  let data = await tribunal.find();
+  return { data};
 };
 
 module.exports.lookUp = async id => {
@@ -26,11 +24,19 @@ module.exports.update = async (id, data) => {
   return await tribunal.findOneAndUpdate({ tribunal: id }, data).exec();
 };
 
-module.exports.insert = async data => {
-  var newtribunal = new tribunal(data);
-  return newtribunal.save();
+module.exports.insert = async (id) => {
+  try {
+    const newTribunal = new tribunal({
+      tribunal: id,
+      numero_acordaos: 0
+    });
+    console.log('Saving tribunal:', newTribunal);  // Debugging line
+    return await newTribunal.save();
+  } catch (error) {
+    console.error('Error in insert controller:', error);  // Debugging line
+    throw error;
+  }
 };
-
 module.exports.delete = async id => {
   return await tribunal.deleteOne({ nome: id }).exec();
 };

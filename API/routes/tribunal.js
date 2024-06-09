@@ -3,11 +3,9 @@ var router = express.Router();
 var tribunal = require('../controllers/tribunal');
 
 router.get('/', function(req, res) {
-  let page = parseInt(req.query.page) || 1;
-  let limit = parseInt(req.query.limit) || 10;
 
-  tribunal.list(page, limit)
-    .then(result => res.jsonp({ tribunais: result.data, totalPages: result.totalPages }))
+  tribunal.list()
+    .then(result => res.jsonp({ tribunais: result.data}))
     .catch(error => res.jsonp(error));
 });
 
@@ -17,8 +15,8 @@ router.get('/:id', function(req, res) {
     .catch(error => res.jsonp(error));
 });
 
-router.post('/', function(req, res) {
-  tribunal.insert(req.body)
+router.post('/:id', function(req, res) {
+  tribunal.insert(req.params.id)
     .then(data => res.jsonp(data))
     .catch(error => res.jsonp(error));
 });

@@ -1,0 +1,87 @@
+extends layout
+
+block content
+  h1.w3-center Criar um novo Acordão
+
+  form.w3-container(action="/acordao/adicionar" method="POST")
+    .w3-section
+      label.w3-text-grey(for="processo") *Processo:
+      input.w3-input.w3-border(type="text" name="processo" id="processo" required)
+    
+    .w3-section
+      label.w3-text-grey(for="data_acordao") *Data Acordao:
+      input.w3-input.w3-border(type="date" name="data_acordao" id="data_acordao" required)
+    
+    .w3-section
+      label.w3-text-grey(for="tribunal") *Tribunal:
+      select.w3-select.w3-border(name="tribunal" id="tribunal" required)
+        option(value="" disabled selected) Escolha um Tribunal
+        each tribunal in tribunais
+          option(value=tribunal.tribunal)= tribunal.tribunal
+    
+    .w3-section
+      label.w3-text-grey(for="relator") *Relator:
+      input.w3-input.w3-border(type="text" name="relator" id="relator" required)
+    
+    .w3-section
+      label.w3-text-grey(for="descritores") *Descritores:
+      input.w3-input.w3-border(type="text" name="descritores" id="descritores" placeholder="Comma-separated values" required)
+    
+    .w3-section
+      label.w3-text-grey(for="numero_convencional") *Numero Convencional:
+      input.w3-input.w3-border(type="text" name="numero_convencional" id="numero_convencional" required)
+    
+    .w3-section
+      label.w3-text-grey(for="numero_documento") *Numero Documento:
+      input.w3-input.w3-border(type="text" name="numero_documento" id="numero_documento" required)
+    
+    .w3-section
+      label.w3-text-grey(for="votacao") *Votacao:
+      input.w3-input.w3-border(type="text" name="votacao" id="votacao" required)
+    
+    .w3-section
+      label.w3-text-grey(for="texto_integral") *Texto Integral:
+      textarea.w3-input.w3-border(name="texto_integral" id="texto_integral" required)
+    
+    .w3-section
+      label.w3-text-grey(for="url") *URL:
+      input.w3-input.w3-border(type="url" name="url" id="url" required)
+    
+    .w3-section
+      label.w3-text-grey(for="requerente") Requerente:
+      input.w3-input.w3-border(type="text" name="outros_campos[requerente]" id="requerente")
+    
+    .w3-section
+      label.w3-text-grey(for="requerido") Requerido:
+      input.w3-input.w3-border(type="text" name="outros_campos[requerido]" id="requerido")
+    
+    .w3-section
+      label.w3-text-grey(for="privacidade") Privacidade:
+      input.w3-input.w3-border(type="text" name="outros_campos[privacidade]" id="privacidade")
+    
+    .w3-section
+      label.w3-text-grey(for="normas_apreciadas") Normas Apreciadas:
+      input.w3-input.w3-border(type="text" name="outros_campos[normas_apreciadas]" id="normas_apreciadas")
+    
+    .w3-section
+      label.w3-text-grey(for="normas_julgadas_inconst") Normas Julgadas Inconst:
+      input.w3-input.w3-border(type="text" name="outros_campos[normas_julgadas_inconst]" id="normas_julgadas_inconst")
+    
+    .w3-section
+      label.w3-text-grey(for="area_tematica_1") Area Tematica 1:
+      input.w3-input.w3-border(type="text" name="outros_campos[area_tematica_1]" id="area_tematica_1")
+    
+    .w3-section
+      label.w3-text-grey(for="area_tematica_2") Area Tematica 2:
+      input.w3-input.w3-border(type="text" name="outros_campos[area_tematica_2]" id="area_tematica_2")
+    
+    .w3-section
+      label.w3-text-grey(for="decisao") Decisao:
+      input.w3-input.w3-border(type="text" name="outros_campos[decisao]" id="decisao")
+    
+    .w3-section
+      label.w3-text-grey(for="sumario") Sumario:
+      textarea.w3-input.w3-border(name="outros_campos[sumario]" id="sumario")
+    
+    .w3-section
+      button.w3-button.w3-blue(type="submit") Create Acordao

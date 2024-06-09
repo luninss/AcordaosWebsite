@@ -4,7 +4,7 @@ const ObjectId = mongoose.Types.ObjectId
 const AcordaoSchema = new mongoose.Schema({
     _id : ObjectId,
     processo:  String,
-    data_acordao:  Date,
+    data_acordao:  String,
     tribunal:  String, 
     relator:  String, 
     descritores:  [String], 

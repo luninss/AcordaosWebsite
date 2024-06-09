@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1.w3-center Criar um novo Tribunal
+
+  form.w3-container(action="/tribunal/adicionar" method="POST")
+    .w3-section
+      label.w3-text-grey(for="nome") *Nome:
+      input.w3-input.w3-border(type="text" name="nome" id="nome" required)
+    
+    .w3-section
+      button.w3-button.w3-blue(type="submit") Criar tribunal

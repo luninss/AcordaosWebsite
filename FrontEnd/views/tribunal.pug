@@ -17,9 +17,3 @@ block content
               td
                 a(href='/acordao/tribunal/' + tribunal.tribunal)= tribunal.tribunal
 
-  .pagination.w3-left
-    if page > 1
-      button.w3-button(type='button', onclick=`window.location.href='/?page=${page-1}&limit=${limit}'`) <
-  .pagination.w3-right
-    if page < totalPages
-      button.w3-button(type='button', onclick=`window.location.href='/?page=${page+1}&limit=${limit}'`) >

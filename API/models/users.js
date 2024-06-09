@@ -6,7 +6,11 @@ const UserSchema = new mongoose.Schema({
     _id : ObjectId,
     username:  String,
     hashedPassword:  String,
-    name: String,
+    nome: String,
+    filiacao: String,
+    dataRegisto: Date,
+    dataUltimoAcesso: Date,
+    favortios: [String],
     level: String,
     favorites: [String],
 }, { collection: 'Users' }) ;
