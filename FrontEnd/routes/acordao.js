@@ -33,6 +33,7 @@ router.get('/adicionar', function(req, res, next) {
 router.post('/adicionar', async (req, res) => {
   try {
     const acordaoData = {
+      _id: req.body._id,
       processo: req.body.processo,
       data_acordao: req.body.data_acordao,
       tribunal: req.body.tribunal,
@@ -55,7 +56,13 @@ router.post('/adicionar', async (req, res) => {
         sumario: req.body['outros_campos[sumario]'],
       },
     };
-    await axios.post(`${api}acordaos`, acordaoData);
+    axios.post(`${api}acordaos/`,acordaoData)
+      .then(resp=>{
+          console.log(resp.data)
+      })
+      .catch(erro=>{
+          res.status(502).render("erro",{"erro" : erro})
+      })
     res.redirect('/'); 
   } catch (error) {
     res.status(500).send('Erro ao criar acordão: ' + error.message);

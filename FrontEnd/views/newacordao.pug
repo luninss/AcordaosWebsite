@@ -4,6 +4,11 @@ block content
   h1.w3-center Criar um novo Acordão
 
   form.w3-container(action="/acordao/adicionar" method="POST")
+
+    .w3-section
+      label.w3-text-grey(for="processo") *Id:
+      input.w3-input.w3-border(type="text" name="_id" id="_id" required)
+
     .w3-section
       label.w3-text-grey(for="processo") *Processo:
       input.w3-input.w3-border(type="text" name="processo" id="processo" required)
