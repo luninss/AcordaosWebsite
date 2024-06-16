@@ -54,10 +54,17 @@ html
       a.sidebar-item(href='/') Página Inicial
       a.sidebar-item(href='/tribunal') Tribunais
       a.sidebar-item(href='/pesquisa') Pesquisar
-      a.sidebar-item(href='/profile') Perfil
-      a.sidebar-item(href='/acordao/adicionar') Adicionar Acórdão
-      a.sidebar-item(href='/tribunal/adicionar') Adicionar Tribunal
-      a.sidebar-item(href='/logout') Logout
+      if loggedin
+        a.sidebar-item(href='/profile') Perfil
+        a.sidebar-item(href='/favoritos') Favoritos
+        a.sidebar-item(href='/logout') Logout
+        if level
+          a.sidebar-item(href='/acordao/adicionar') Adicionar Acórdão
+          a.sidebar-item(href='/tribunal/adicionar') Adicionar Tribunal
+      else 
+        a.sidebar-item(href='/login') Login
+        a.sidebar-item(href='/signup') Sign Up
+      
     .w3-main#mainContent
       block content
 

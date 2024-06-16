@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .w3-container
+        h2 Sign Up
+        form.w3-container.w3-card-4(action="/signup", method="POST")
+            .w3-row.w3-section
+                .w3-col.s4
+                    label.w3-text-teal Nome
+                .w3-col.s8
+                    input.w3-input(type="text", name="name", required)
+            .w3-row.w3-section
+                .w3-col.s4
+                    label.w3-text-teal Username
+                .w3-col.s8
+                    input.w3-input(type="text", name="username", required)
+            .w3-row.w3-section
+                .w3-col.s4
+                    label.w3-text-teal Email
+                .w3-col.s8
+                    input.w3-input(type="email", name="email", required)
+            .w3-row.w3-section
+                .w3-col.s4
+                    label.w3-text-teal Password
+                .w3-col.s8
+                    input.w3-input(type="password", name="password", required)
+            .w3-row.w3-section
+                .w3-col.s4
+                .w3-col.s8
+                    button.w3-button.w3-teal(type="submit") Sign Up
+        if error
+            p.w3-text-red= error

@@ -4,16 +4,15 @@ const ObjectId = mongoose.Types.ObjectId
 
 const UserSchema = new mongoose.Schema({
     username:  String,
+    email: String,
     password:  String,
     nome: String,
-    filiacao: String,
     dataRegisto: Date,
     dataUltimoAcesso: Date,
-    favortios: [String],
+    favoritos: [String],
     level: String,
-    favorites: [String],
 }, { collection: 'Users' }) ;
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose, {usernameField: 'username'});
 
 module.exports = mongoose.model('user', UserSchema);

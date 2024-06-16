@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var jwt = require('jsonwebtoken'); // Make sure to require jwt if not already done
 var axios = require('axios');
 
 var indexRouter = require('./routes/index');
@@ -22,6 +23,31 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware to set loggedin and level variables
+app.use((req, res, next) => {
+  const token = req.cookies.token;
+  if (token) {
+    jwt.verify(token, 'PROJETO-EW', (err, decoded) => {
+      if (err) {
+        console.log(err);
+        res.locals.level = false;
+        res.locals.loggedin = false;
+      } else {
+        console.log(decoded);
+        res.locals.level = decoded.level === 'admin';
+        res.locals.loggedin = true;
+      }
+      next();
+    });
+  } else {
+    console.log('no token');
+    res.locals.level = false;
+    res.locals.loggedin = false;
+    next();
+  }
+});
+
+// Define routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/acordao', acordaosRouter);
@@ -41,6 +67,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+  console.log(err);
 });
 
 module.exports = app;

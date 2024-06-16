@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
+var jwt = require('jsonwebtoken');
 
 const api = 'http://localhost:16000/';
-
+const aut = 'http://localhost:16001/';
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let page = parseInt(req.query.page) || 1;
@@ -19,3 +20,56 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+
+// login e signup
+
+router.get('/login', function(req, res, next) {
+  let token = req.cookies.token;
+  if (token) {
+    jwt.verify(token, 'PROJETO-EW', function(err, decoded) {
+      if (err) {
+        res.render('login', { error: 'Token inválido, se erro persistir, limpar cookies' });
+      } else {
+        res.render('login', { error: 'Usuário já autenticado'})
+      }
+    });
+  } else {
+    res.render('login');
+  }
+});
+
+router.post('/login', function(req, res, next) {
+  console.log(req.body);
+  axios.post(`${aut}login`, req.body)
+    .then(response => {
+      res.cookie('token', response.data.token);
+      res.redirect('/');
+    })
+    .catch(error => {
+      res.render('login', { error: error.response.data.error }, {teste: 'teste'});
+    });
+});
+
+router.get('/signup', function(req, res, next) {
+  res.render('signup');
+});
+
+router.post('/signup', function(req, res, next) {
+  req.body.level = 'normal';
+  req.body.dataRegisto = new Date().toISOString();
+  req.body.dataUltimoAcesso = new Date().toISOString();
+  req.body.favoritos = [];
+  axios.post(`${aut}register`, req.body)
+    .then(response => {
+      res.redirect('/login');
+    })
+    .catch(error => {
+      res.render('signup', { error: error.response.data.error });
+    });
+});
+
+router.get('/logout', function(req, res, next) {
+  res.clearCookie('token');
+  res.redirect('/');
+});
