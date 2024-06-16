@@ -38,6 +38,7 @@ block content
             th.fixed-width Data
             th.fixed-width Relator
             th.descritores-width Descritores
+            th Actions
         tbody
           each acordao in acordaos
             tr
@@ -60,7 +61,10 @@ block content
                     br
                     span (...) 
                 else 
-                  span - - -
+                  span - - - 
+              td 
+                  a.w3-button.w3-blue(href="/acordao/edit/" + acordao._id) Edit
+                  a.w3-button.w3-red(href="/acordao/delete/" + acordao._id) Delete
 
   .pagination
     .w3-left
