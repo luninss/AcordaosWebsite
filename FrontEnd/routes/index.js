@@ -56,10 +56,6 @@ router.get('/signup', function(req, res, next) {
 });
 
 router.post('/signup', function(req, res, next) {
-  req.body.level = 'normal';
-  req.body.dataRegisto = new Date().toISOString();
-  req.body.dataUltimoAcesso = new Date().toISOString();
-  req.body.favoritos = [];
   axios.post(`${aut}register`, req.body)
     .then(response => {
       res.redirect('/login');
@@ -72,4 +68,31 @@ router.post('/signup', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   res.clearCookie('token');
   res.redirect('/');
+});
+
+router.get('/perfil', function(req, res, next) {
+  let token = req.cookies.token;
+  let username = '';
+  if (token) {
+    jwt.verify(token, 'PROJETO-EW', function(err, decoded) {
+      if (err) {
+        res.redirect('/login');
+      } else {
+        username = decoded.username;
+      }
+    });
+  } else {
+    res.redirect('/login');
+  }
+
+  axios.get(`${api}users/${username}?token=${token}`)
+    .then(response => {
+      console.log(response.data);
+      res.render('perfil', { user: response.data.dados });
+    })
+    .catch(error => {
+      res.render('error', { error: error });
+    });
+
+
 });

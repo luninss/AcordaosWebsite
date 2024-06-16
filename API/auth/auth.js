@@ -13,6 +13,7 @@ module.exports.verificaAcesso = function (req, res, next){
       })
     }
     else{
+      console.log("Token inexistente!")
       res.status(401).jsonp({error: "Token inexistente!"})
     }
   }
