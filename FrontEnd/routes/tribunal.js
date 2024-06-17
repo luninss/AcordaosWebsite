@@ -1,20 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
+var autenticacao = require('../verifyAcess/acess');
 
-const api = process.env.API_URL || 'http://localhost:16000';
+const api = process.env.API || 'http://localhost:16000/';
 
 
 
-router.get('/adicionar', function(req, res, next) {
+router.get('/adicionar', autenticacao.verificaAdmin,function(req, res, next) {
   res.render('newtribunal');
 });
 
-router.post('/adicionar', async (req, res) => {
+router.post('/adicionar', autenticacao.verificaAdmin, async (req, res) => {
   try {
     const nome = req.body.nome;
     const apiUrl = `${api}tribunais/${nome}`;
-    console.log('API URL:', apiUrl);  // Debugging line
     await axios.post(apiUrl);
     res.redirect('/');
   } catch (error) {

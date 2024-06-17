@@ -4,14 +4,15 @@ var axios = require('axios');
 var autenticao = require('../verifyAcess/acess');
 const { verificaAdmin } = require('../verifyAcess/acess');
 const moment = require('moment'); 
-const api = process.env.API_URL || 'http://localhost:16000';
-
+const api = process.env.API || 'http://localhost:16000/';
+var jsonfile = require('jsonfile')
+var multer = require('multer');
+var upload = multer({ dest: 'uploads' })
 
 router.get('/tribunal/:id', async function(req, res, next) {
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || 10;
   tribunal = req.params.id;
-
   await axios.get(`${api}acordaos/tribunal/${req.params.id}`)
     .then(response => {
       res.render('indexByTribunal', { acordaos: response.data.acordaos, page: page, totalPages: response.data.totalPages});
@@ -31,6 +32,31 @@ router.get('/adicionar', autenticao.verificaAdmin, function(req, res, next) {
       .catch(error => {
         res.render('error', { error: error });
       });
+});
+
+router.get('/adicionar/file', autenticao.verificaAdmin, function(req, res, next) {
+  axios.get(`${api}tribunais`)
+      .then(response => {
+        res.render('newacordaoFile');
+      })
+      .catch(error => {
+        res.render('error', { error: error });
+      });
+});
+
+router.post('/adicionar/file', autenticao.verificaAdmin, upload.single('file'), async function(req, res, next) {
+  const file = req.file.path;
+  let token = req.cookies.token;
+  jsonfile.readFile(file) 
+      .then((content)=> {
+        axios.post(`${api}acordaos/file?token=${token}`, content)
+          .then(response => {
+            res.redirect('/acordao/' + response.data._id);
+          })
+          .catch(error => {
+            res.render('newacordaoFile', { error: error });
+          });
+      })
 });
 
 router.get('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, res, next) {
@@ -54,6 +80,7 @@ router.get('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, res
 });
 
 router.post('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, res, next) {
+  let token = req.cookies.token;
   try {
     const acordaoData = {
       _id: req.params.idAcordao,
@@ -79,10 +106,9 @@ router.post('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, re
         sumario: req.body['outros_campos[sumario]'],
       },
     };
-    await axios.put(`${api}acordaos/${req.params.idAcordao}`,acordaoData)
+    await axios.put(`${api}acordaos/${req.params.idAcordao}?token=${token}`,acordaoData)
       .then(resp=>{
-          console.log(resp.data)
-          res.redirect('/');
+          res.redirect('/acordao/' + req.params.idAcordao);
       })
       .catch(erro=>{
           res.status(502).render("erro",{"erro" : erro})
@@ -93,8 +119,9 @@ router.post('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, re
 });
 
 
-router.get('/delete/:idAcordao', verificaAdmin, async function(req, res, next) {
-  await axios.delete(`${api}acordaos/${req.params.idAcordao}`)
+router.get('/delete/:idAcordao', autenticao.verificaAdmin, async function(req, res, next) {
+  let token = req.cookies.token;
+  await axios.delete(`${api}acordaos/${req.params.idAcordao}?token=${token}`)
       .then(resp=>{
           res.redirect('/')
       })
@@ -105,6 +132,7 @@ router.get('/delete/:idAcordao', verificaAdmin, async function(req, res, next) {
 
 
 router.post('/adicionar',autenticao.verificaAdmin, async (req, res) => {
+  let token = req.cookies.token;
   try {
     const acordaoData = {
       processo: req.body.processo,
@@ -129,9 +157,9 @@ router.post('/adicionar',autenticao.verificaAdmin, async (req, res) => {
         sumario: req.body['outros_campos[sumario]'],
       },
     };
-    await axios.post(`${api}acordaos/`,acordaoData)
+    await axios.post(`${api}acordaos/?token=${token}`,acordaoData)
       .then(resp=>{
-          console.log(resp.data)
+          res.redirect('/acordao/' + resp.data._id);
       })
       .catch(erro=>{
           res.status(502).render("erro",{"erro" : erro})

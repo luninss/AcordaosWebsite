@@ -15,6 +15,35 @@ module.exports.list = () => {
             })
 }
 
+module.exports.addFavorite = (id, fav) => {
+    return User.updateOne({username:id}, {$push: {favoritos: fav}})
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
+module.exports.updateUserAcesso = (id) => {
+    return User.updateOne({username:id}, {ultimoAcesso: Date.now()})
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+module.exports.removeFavorite = (id, fav) => {
+    return User.updateOne({username:id}, {$pull: {favoritos: fav}})
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 module.exports.getUser = id => {
     return User.findOne({username:id})
             .then(resposta => {

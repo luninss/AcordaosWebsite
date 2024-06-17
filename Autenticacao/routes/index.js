@@ -2,15 +2,64 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken')
 var passport = require('passport')
+var axios = require('axios')
 var userModel = require('../models/users')
 var autenticacao = require('../verifyAcess/acess')
+const api = process.env.API || 'http://localhost:16000/';
 
-var User = require('../controllers/users')
+var User = require('../controllers/users');
 
+async function getAcordaosByIdss(favoriteIDS){
+    const response = await axios.get(`${api}acordaos/lista`, {data: {lista: favoriteIDS}})
+    return response.data
+}
+router.get('/:id/favorites', autenticacao.verificaAcesso, async function(req, res){
+    var token = req.query.token
+    var username = jwt.decode(token).username
+    if(req.params.id === username){
+    User.getUser(req.params.id)
+      .then(async dados => {
+        const favoriteIds = dados.favoritos;
+        const list = await getAcordaosByIdss(favoriteIds);
+        res.status(200).jsonp({acordaos : list});
+      })
+      .catch(e => {
+        console.log("Error:", e);
+        res.status(500).jsonp({ error: e });
+      });
+    }else{
+        res.status(403).jsonp({error: `[autenticacao] The user ${req.user.username} is not autenticacaoorized to access this information.`})
+    }
+});
+  
+  router.put('/:id/favorites/:idFav', autenticacao.verificaAcesso, function(req, res){
+    var token = req.query.token
+    var username = jwt.decode(token).username
+    if(req.params.id === username){
+    User.addFavorite(req.params.id, req.params.idFav)
+      .then(dados => res.status(201).jsonp({dados: dados}))
+      .catch(e => res.status(500).jsonp({error: e}))
+    } else
+        res.status(403).jsonp({error: `[autenticacao] The user ${req.user.username} is not autenticacaoorized to access this information.`})
+  });
+  
+  router.delete('/:id/favorites/:idFav', autenticacao.verificaAcesso, function(req, res){
+    var token = req.query.token
+    var username = jwt.decode(token).username
+    if(req.params.id === username){
+    User.removeFavorite(req.params.id, req.params.idFav)
+      .then(dados => res.status(201).jsonp({dados: dados}))
+      .catch(e => res.status(500).jsonp({error: e}))
+    }
+    else
+        res.status(403).jsonp({error: `[autenticacao] The user ${req.user.username} is not autenticacaoorized to access this information.`})
+  });
 
-router.get('/:id', autenticacao.verificaAcesso, function (req, res) {
-    if(req.params.id === req.idUser){
-        User.getUser(req.params.id)
+router.get('/:username', autenticacao.verificaAcesso, function (req, res) {
+    var token = req.query.token
+    var username = jwt.decode(token).username
+    if(req.params.username === username){
+        User.getUser(req.params.username)
             .then(dados => res.status(200).jsonp({ dados: dados }))
             .catch(e => res.status(500).jsonp({ error: e }))
     }else
@@ -118,8 +167,13 @@ router.post('/registerAdmin', autenticacao.verificaAdmin,  function (req, res) {
     )
 })
 
-router.post('/login', passport.authenticate('local') , async function (req, res) {
+router.post('/login',  async function (req, res) {
     var user = await User.getUser(req.body.username)
+    if (user == null) {
+        console.log("Utilizador inexistente")
+        res.status(401).jsonp({ error: 'Utilizador inexistente' })
+        return
+    }
     var levell = user.level
     jwt.sign({
             username: req.body.username, level: levell
@@ -131,7 +185,7 @@ router.post('/login', passport.authenticate('local') , async function (req, res)
                 res.status(500).jsonp({ error: e })
             }
             else {
-                //User.updateUserLastAc cess(req.user._id)
+                User.updateUserAcesso(req.body.username)
                 res.status(201).jsonp({ token: token })
             }
         }
@@ -150,17 +204,17 @@ router.delete('/:id', autenticacao.verificaAcesso, function (req, res) {
 
 router.put('/users/:username', autenticacao.verificaAcesso, function (req, res) {
     var token = req.query.token
-    console.log(req.body)
-    if (req.body.nome) {
+    var username = jwt.decode(token).username
+    if(req.params.username === username && req.body.nome){
         User.updateNome(req.params.username, req.body.nome)
             .then(dados => {
                 res.jsonp(dados)
             })
             .catch(erro => {
                 res.status(409).jsonp({ error: erro }) 
-            })
+    })
     } else {
-        res.status(400).jsonp({ error: 'missing password' })
+        res.status(400).jsonp({ error: 'missing username, or unathorized acess' })
     }
 });
 

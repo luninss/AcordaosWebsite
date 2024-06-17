@@ -1,0 +1,23 @@
+{
+    "processo": "TESTEEEE",
+    "data_acordao": "03/10/1998",
+    "tribunal": "tribunal novo",
+    "relator": "Ricardo",
+    "descritores": ["IRS","INVASÃO"],
+    "numero_convencional": "22",
+    "numero_documento": "23",
+    "votacao": "UNANIME",
+    "texto_integral": "Eu sou um teste",
+    "url": "https://teste.com",
+    "outros_campos": {
+        "requerente": "",
+        "requerido": "",
+        "privacidade": "",
+        "normas_apreciadas": "",
+        "normas_julgadas_inconst": "",
+        "area_tematica_1": "",
+        "area_tematica_2": "",
+        "decisao": "",
+        "sumario": ""
+    }
+}

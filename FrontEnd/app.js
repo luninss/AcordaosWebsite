@@ -7,7 +7,6 @@ var jwt = require('jsonwebtoken');
 var axios = require('axios');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var acordaosRouter = require('./routes/acordao');
 var tribunalRouter = require('./routes/tribunal');
 
@@ -48,14 +47,9 @@ app.use((req, res, next) => {
 
 // Define routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/acordao', acordaosRouter);
 app.use('/tribunal', tribunalRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
 
 // error handler
 app.use(function(err, req, res, next) {

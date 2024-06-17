@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1.w3-center Adicionar Acordão por Ficheiro
+
+  form.w3-container(action="/acordao/adicionar/file" method="POST" enctype="multipart/form-data")
+    .w3-section
+      label.w3-text-grey(for="file") *Ficheiro de Acordão:
+      input.w3-input.w3-border(type="file" name="file" id="file" accept=".json" required)
+    .w3-section
+      button.w3-button.w3-blue(type="submit") Enviar
+    if error
+        p.w3-text-red= error

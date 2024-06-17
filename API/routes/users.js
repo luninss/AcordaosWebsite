@@ -15,29 +15,6 @@ router.get('/', auth.verificaAcesso, function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
-router.get('/:id/favorites', auth.verificaAcesso, function(req, res){
-  User.getUser(req.params.id)
-    .then(dados => {
-      const favoriteIds = dados.favoritos;
-      Acordao.getAcordaosByIds(favoriteIds)
-        .then(acordaos => res.status(200).jsonp({ acordaos: acordaos }))
-        .catch(e => res.status(500).jsonp({ error: e }));
-    })
-    .catch(e => res.status(500).jsonp({ error: e }));
-})
-
-router.put('/:id/favorites/:idFav', auth.verificaAcesso, function(req, res){
-  User.addFavorite(req.params.id, req.params.idFav)
-    .then(dados => res.status(201).jsonp({dados: dados}))
-    .catch(e => res.status(500).jsonp({error: e}))
-});
-
-router.delete('/:id/favorites/:idFav', auth.verificaAcesso, function(req, res){
-  User.removeFavorite(req.params.id, req.params.idFav)
-    .then(dados => res.status(201).jsonp({dados: dados}))
-    .catch(e => res.status(500).jsonp({error: e}))
-});
-
 router.get('/:id', auth.verificaAcesso, function(req, res){
   User.getUser(req.params.id)
     .then(dados => res.status(200).jsonp({dados: dados}))

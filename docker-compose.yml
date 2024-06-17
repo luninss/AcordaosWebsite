@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  acordaosinterface:
+    container_name: acordaosinterface
+    build: ./FrontEnd
+    environment:
+      - API=http://acordaosapi:16000/api/
+      - AUTH=http://acordaosautenticacao:16001/users/
+    ports:
+      - "16002:16002"
+    depends_on: 
+      - acordaosapi
+      - acordaosautenticacao
+    networks:
+      - acordaosnet
+  
+  acordaosapi:
+    container_name: acordaosapi
+    build: ./API
+    environment:
+      - MONGODB_URL=mongodb://mongoserv/Projeto-EW
+    depends_on:
+      - mongoserv
+    networks:
+      - acordaosnet
+    
+  acordaosautenticacao:
+    container_name: acordaosautenticacao
+    build: ./Autenticacao
+    environment:
+      - MONGODB_URL=mongodb://mongoserv/Projeto-EW
+    depends_on:
+      - mongoserv
+    networks:
+      - acordaosnet
+
+  mongoserv:
+    container_name: mongoserv
+    image: mongo 
+    networks:
+      - acordaosnet
+    volumes:
+      - './mongodata:/data/db'
+
+networks:
+  acordaosnet:
+    driver: bridge
