@@ -49,9 +49,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/acordaos', acordaosRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/tribunais', tribuanisRouter);
+app.use('/acordaos', acordaosRouter);
+app.use('/users', usersRouter);
+app.use('/tribunais', tribuanisRouter);
 
 
 // catch 404 and forward to error handler

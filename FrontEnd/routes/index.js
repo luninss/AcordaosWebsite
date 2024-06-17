@@ -4,8 +4,8 @@ var axios = require('axios');
 var jwt = require('jsonwebtoken');
 var autenticacao = require('../verifyAcess/acess');
 
-const api = process.env.API || 'http://localhost:16000/api/';
-const aut = process.env.AUTH || 'http://localhost:16001/users/';
+const api = process.env.API || 'http://localhost:16000/';
+const aut = process.env.AUTH || 'http://localhost:16001/';
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   let page = parseInt(req.query.page) || 1;

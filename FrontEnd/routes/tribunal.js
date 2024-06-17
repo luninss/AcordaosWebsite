@@ -3,7 +3,7 @@ var router = express.Router();
 var axios = require('axios');
 var autenticacao = require('../verifyAcess/acess');
 
-const api = process.env.API || 'http://localhost:16000/api/';
+const api = process.env.API || 'http://localhost:16000/';
 
 
 
