@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios');
 
-const api = 'http://localhost:16000/';
+const api = process.env.API_URL || 'http://localhost:16000';
 
 
 

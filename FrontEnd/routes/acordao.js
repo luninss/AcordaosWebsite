@@ -3,9 +3,8 @@ var router = express.Router();
 var axios = require('axios');
 var autenticao = require('../verifyAcess/acess');
 const { verificaAdmin } = require('../verifyAcess/acess');
-
-const api = 'http://localhost:16000/';
-
+const moment = require('moment'); 
+const api = process.env.API_URL || 'http://localhost:16000';
 
 
 router.get('/tribunal/:id', async function(req, res, next) {
@@ -38,6 +37,9 @@ router.get('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, res
   await axios.get(`${api}acordaos/${req.params.idAcordao}`)
       .then(resp=>{
         var Acordao = resp.data
+        if (Acordao.data_acordao) {
+          Acordao.data_acordao = moment(Acordao.data_acordao).format('YYYY-MM-DD');
+        }
         axios.get(`${api}tribunais`)
           .then(response => {
             res.render('AcordaoEditPage', { tribunais: response.data.tribunais, "acordao": Acordao});
@@ -105,7 +107,6 @@ router.get('/delete/:idAcordao', verificaAdmin, async function(req, res, next) {
 router.post('/adicionar',autenticao.verificaAdmin, async (req, res) => {
   try {
     const acordaoData = {
-      _id: req.body._id,
       processo: req.body.processo,
       data_acordao: req.body.data_acordao,
       tribunal: req.body.tribunal,

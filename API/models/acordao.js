@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId
 
 const AcordaoSchema = new mongoose.Schema({
-    _id : ObjectId,
     processo:  String,
     data_acordao:  Date,
     tribunal:  String, 

@@ -8,7 +8,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://127.0.0.1/ProjetoEW';
+var mongoDB = process.env.MONGODB_URL || 'mongodb://127.0.0.1/ProjetoEW';
 mongoose.connect(mongoDB);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Erro de conexão ao MongoDB'));

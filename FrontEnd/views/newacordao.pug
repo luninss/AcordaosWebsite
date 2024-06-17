@@ -6,10 +6,6 @@ block content
   form.w3-container(action="/acordao/adicionar" method="POST")
 
     .w3-section
-      label.w3-text-grey(for="processo") *Id:
-      input.w3-input.w3-border(type="text" name="_id" id="_id" required)
-
-    .w3-section
       label.w3-text-grey(for="processo") *Processo:
       input.w3-input.w3-border(type="text" name="processo" id="processo" required)
     
@@ -30,15 +26,15 @@ block content
     
     .w3-section
       label.w3-text-grey(for="descritores") *Descritores:
-      input.w3-input.w3-border(type="text" name="descritores" id="descritores" placeholder="Comma-separated values" required)
+      input.w3-input.w3-border(type="text" name="descritores" id="descritores" placeholder="Exemplo: [\"IRS\",\"RECURSO ELEITORAL\"\]" required)
     
     .w3-section
       label.w3-text-grey(for="numero_convencional") *Numero Convencional:
-      input.w3-input.w3-border(type="text" name="numero_convencional" id="numero_convencional" required)
+      input.w3-input.w3-border(type="text" name="numero_convencional" id="numero_convencional" )
     
     .w3-section
       label.w3-text-grey(for="numero_documento") *Numero Documento:
-      input.w3-input.w3-border(type="text" name="numero_documento" id="numero_documento" required)
+      input.w3-input.w3-border(type="text" name="numero_documento" id="numero_documento" )
     
     .w3-section
       label.w3-text-grey(for="votacao") *Votacao:
@@ -46,7 +42,7 @@ block content
     
     .w3-section
       label.w3-text-grey(for="texto_integral") *Texto Integral:
-      textarea.w3-input.w3-border(name="texto_integral" id="texto_integral" required)
+      textarea.w3-input.w3-border(name="texto_integral" id="texto_integral" )
     
     .w3-section
       label.w3-text-grey(for="url") *URL:

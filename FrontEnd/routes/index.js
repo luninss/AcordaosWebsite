@@ -4,8 +4,8 @@ var axios = require('axios');
 var jwt = require('jsonwebtoken');
 var autenticacao = require('../verifyAcess/acess');
 
-const api = 'http://localhost:16000/';
-const aut = 'http://localhost:16001/';
+const api = process.env.API_URL || 'http://localhost:16000';
+const aut = process.env.AUTH_SERVICE_URL || 'http://localhost:16001';
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   let page = parseInt(req.query.page) || 1;
@@ -46,7 +46,6 @@ router.get('/', async function(req, res, next) {
 });
 
 router.get('/search', async function(req, res, next) {
-  console.log(req.query)
   let sort = req.query.sort === 'desc' ? -1 : 1;
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || 10;
@@ -86,7 +85,6 @@ router.get('/search', async function(req, res, next) {
 });
 
 router.get('/search/:tribunal', async function(req, res, next) {
-  console.log(req.query)
   let sort = req.query.sort === 'desc' ? -1 : 1;
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || 10;
@@ -197,14 +195,12 @@ router.get('/perfil', autenticacao.verificaAcesso ,function(req, res, next) {
   if (token) {
     jwt.verify(token, 'PROJETO-EW', function(err, decoded) {
       if (err) {
-        console.log('erro')
         res.redirect('/login');
       } else {
         username = decoded.username;
       }
     });
   } else {
-    console.log('ei')
     res.redirect('/login');
   }
 
