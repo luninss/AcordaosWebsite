@@ -1,26 +1,123 @@
 extends layout
 
 block content
-    title Acordão #{acordao.processo}
-    .w3-container
-        table.w3-table-all
-            tr
-                th Processo
-                th Data Acordao
-                th Tribunal
-                th Relator
-                th Descritores
-                th Votacao
-                th URL
-            tr
-                td #{acordao.processo}
-                td #{acordao.data_acordao}
-                td 
-                   a(href=`/acordao/tribunal/${acordao.tribunal}`)= acordao.tribunal
-                td #{acordao.relator}
-                td
-                    each desc in acordao.descritores
-                        p #{desc}
-                td #{acordao.votacao}
-                td 
-                    a(href=`//${acordao.url}`) URL
+  style.
+    .table-header {
+      background-color: #f1f1f1;
+      font-weight: bold;
+    }
+    .descritores-list {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    .descritores-list li {
+      display: inline-block;
+      margin-right: 8px;
+      padding: 2px 8px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+    }
+    .field {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    .field-label {
+      width: 150px;
+      font-weight: bold;
+    }
+    .field-value {
+      flex-grow: 1;
+    }
+
+  title Acordão #{acordao.processo}
+  .w3-container
+    .w3-card-4
+      .w3-container.w3-light-grey.table-header
+        h2 Acordão #{acordao.processo}
+      
+      .w3-container
+        .field
+          .field-label Processo:
+          .field-value #{acordao.processo}
+          
+        .field
+          .field-label Data Acordão:
+          .field-value #{acordao.data_acordao}
+          
+        .field
+          .field-label Tribunal:
+          .field-value 
+            a(href=`/acordao/tribunal/${acordao.tribunal}`) #{acordao.tribunal}
+            
+        .field
+          .field-label Relator:
+          .field-value #{acordao.relator}
+          
+        .field
+          .field-label Descritores:
+          .field-value 
+            if acordao.descritores && acordao.descritores.length
+              ul.descritores-list
+                each desc in acordao.descritores
+                  li #{desc}
+            else
+              | N/A
+              
+        .field
+          .field-label Votação:
+          .field-value #{acordao.votacao}
+          
+        .field
+          .field-label URL:
+          .field-value 
+            a(href=`//${acordao.url}`) #{acordao.url}
+        
+        // Outros campos section
+        h3 Outros Campos
+        .w3-container.w3-light-grey
+          .field
+            .field-label Requerente:
+            .field-value= acordao.outros_campos.requerente || 'N/A'
+            
+          .field
+            .field-label Requerido:
+            .field-value= acordao.outros_campos.requerido || 'N/A'
+            
+          .field
+            .field-label Privacidade:
+            .field-value= acordao.outros_campos.privacidade || 'N/A'
+            
+          .field
+            .field-label Normas Apreciadas:
+            .field-value= acordao.outros_campos.normas_apreciadas || 'N/A'
+            
+          .field
+            .field-label Normas Julgadas Inconst.:
+            .field-value= acordao.outros_campos.normas_julgadas_inconst || 'N/A'
+            
+          .field
+            .field-label Área Temática 1:
+            .field-value= acordao.outros_campos.area_tematica_1 || 'N/A'
+            
+          .field
+            .field-label Área Temática 2:
+            .field-value= acordao.outros_campos.area_tematica_2 || 'N/A'
+            
+          .field
+            .field-label Decisão:
+            .field-value= acordao.outros_campos.decisao || 'N/A'
+            
+          .field
+            .field-label Sumário:
+            .field-value= acordao.outros_campos.sumario || 'N/A'
+
+    form(method='POST', action="/acordao/favorite/" + acordao._id)
+        button(type='submit' class='w3-button w3-pink')
+            i.fa.fa-heart 
+        if loggedin 
+            if level
+                a.w3-button.w3-blue(href="/acordao/edit/" + acordao._id)
+                    i.fa.fa-pencil-alt 
+                a.w3-button.w3-red(href="/acordao/delete/" + acordao._id)
+                    i.fa.fa-trash 

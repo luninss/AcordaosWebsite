@@ -45,6 +45,15 @@ module.exports.addUser = u => {
             })
 }
 
+module.exports.updateNome = (id, newid) => {
+    return User.updateOne({username:id}, {nome: newid})
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+};
 
 module.exports.updateUser = (id, info) => {
     return User.updateOne({username:id}, info)

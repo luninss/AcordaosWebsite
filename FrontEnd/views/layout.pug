@@ -43,6 +43,9 @@ html
       .sidebar-item:hover {
         background-color: #ddd;
       }
+      .sidebar-item i {
+        margin-right: 8px; /* Adjust spacing between icon and text */
+      }
       #toggleSidebar {
         position: fixed;
         top: 16px;
@@ -52,20 +55,39 @@ html
   body
     button.w3-button.w3-xlarge#toggleSidebar ☰
     .w3-sidebar.w3-bar-block.w3-card.w3-animate-left(id='mySidebar')
-      a.sidebar-item(href='/') Página Inicial
-      a.sidebar-item(href='/tribunal') Tribunais
-      a.sidebar-item(href='/pesquisa') Pesquisar
+      a.sidebar-item(href='/')
+        i.fa.fa-home
+        | Página Inicial
+      a.sidebar-item(href='/tribunal')
+        i.fa.fa-building
+        | Tribunais
       if loggedin
-        a.sidebar-item(href='/perfil') Perfil
-        a.sidebar-item(href='/favoritos') Favoritos
-        a.sidebar-item(href='/logout') Logout
+        a.sidebar-item(href='/perfil')
+          i.fa.fa-user
+          | Perfil
+        a.sidebar-item(href='/favoritos')
+          i.fa.fa-heart
+          | Favoritos
+        a.sidebar-item(href='/logout')
+          i.fa.fa-sign-out-alt
+          | Logout
         if level
-          a.sidebar-item(href='/acordao/adicionar') Adicionar Acórdão
-          a.sidebar-item(href='/tribunal/adicionar') Adicionar Tribunal
-          a.sidebar-item(href='/signupADMIN') Adicionar Administrador
+          a.sidebar-item(href='/acordao/adicionar')
+            i.fa.fa-plus
+            | Adicionar Acórdão
+          a.sidebar-item(href='/tribunal/adicionar')
+            i.fa.fa-plus
+            | Adicionar Tribunal
+          a.sidebar-item(href='/signupADMIN')
+            i.fa.fa-user-plus
+            | Adicionar Administrador
       else 
-        a.sidebar-item(href='/login') Login
-        a.sidebar-item(href='/signup') Sign Up
+        a.sidebar-item(href='/login')
+          i.fa.fa-sign-in-alt
+          | Login 
+        a.sidebar-item(href='/signup')
+          i.fa.fa-user-plus
+          | Sign Up
       
     .w3-main#mainContent
       block content

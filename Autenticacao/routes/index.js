@@ -138,19 +138,6 @@ router.post('/login', passport.authenticate('local') , async function (req, res)
     );
 })
 
-router.put('/:id', autenticacao.verificaAcesso, function (req, res) {
-    if(req.idUser === req.params.id){
-        User.updateUser(req.params.id, req.body)
-            .then(dados => {
-                res.jsonp(dados)
-            })
-            .catch(erro => {
-                res.status(409).jsonp({ error: erro }) 
-            })
-    }else
-        res.status(403).jsonp({error: `${req.user.username} não tem permissões para aceder a esta informação.`})
-})
-
 router.delete('/:id', autenticacao.verificaAcesso, function (req, res) {
     User.deleteUser(req.params.id)
         .then(dados => {
@@ -163,8 +150,9 @@ router.delete('/:id', autenticacao.verificaAcesso, function (req, res) {
 
 router.put('/users/:username', autenticacao.verificaAcesso, function (req, res) {
     var token = req.query.token
-    if (req.body.password) {
-        User.updateUserPassword(req.params.username, req.body.password)
+    console.log(req.body)
+    if (req.body.nome) {
+        User.updateNome(req.params.username, req.body.nome)
             .then(dados => {
                 res.jsonp(dados)
             })

@@ -45,7 +45,85 @@ router.get('/', async function(req, res, next) {
     });
 });
 
-module.exports = router;
+router.get('/search', async function(req, res, next) {
+  console.log(req.query)
+  let sort = req.query.sort === 'desc' ? -1 : 1;
+  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.limit) || 10;
+  let tribunal = req.query.tribunal || '';
+  let descritor = req.query.descritor || '';
+  let token = req.cookies.token;
+  let username = '';
+  if (token) {
+    jwt.verify(token, 'PROJETO-EW', function(err, decoded) {
+      if (err) {
+        username = '';
+      } else {
+        username = decoded.username;
+      }
+    });
+  } else {
+    username = '';
+  }
+  var favoritos = [];
+  if (username != '') {
+    await axios.get(`${api}users/${username}/favorites?token=${token}`)
+      .then(response => {
+        favoritos = response.data.acordaos;
+      })
+      .catch(error => {
+        res.render('error', { error: error });
+      });
+  }
+
+  await axios.get(`${api}acordaos/search?descritor=${descritor}&tribunal=${tribunal}&page=${page}&limit=${limit}&sort=${sort}`)
+    .then(response => {
+      res.render('index', { acordaos: response.data.acordaos, page: page, totalPages: response.data.totalPages, favoritos: favoritos });
+    })
+    .catch(error => {
+      res.render('error', { error: error });
+    });
+});
+
+router.get('/search/:tribunal', async function(req, res, next) {
+  console.log(req.query)
+  let sort = req.query.sort === 'desc' ? -1 : 1;
+  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.limit) || 10;
+  let tribunal = req.params.tribunal || '';
+  let descritor = req.query.descritor || '';
+  let token = req.cookies.token;
+  let username = '';
+  if (token) {
+    jwt.verify(token, 'PROJETO-EW', function(err, decoded) {
+      if (err) {
+        username = '';
+      } else {
+        username = decoded.username;
+      }
+    });
+  } else {
+    username = '';
+  }
+  var favoritos = [];
+  if (username != '') {
+    await axios.get(`${api}users/${username}/favorites?token=${token}`)
+      .then(response => {
+        favoritos = response.data.acordaos;
+      })
+      .catch(error => {
+        res.render('error', { error: error });
+      });
+  }
+
+  await axios.get(`${api}acordaos/search?descritor=${descritor}&tribunal=${tribunal}&page=${page}&limit=${limit}&sort=${sort}`)
+    .then(response => {
+      res.render('indexByTribunal', { acordaos: response.data.acordaos, page: page, totalPages: response.data.totalPages, favoritos: favoritos });
+    })
+    .catch(error => {
+      res.render('error', { error: error });
+    });
+});
 
 
 // login, signup e perfis
@@ -139,7 +217,7 @@ router.get('/perfil', autenticacao.verificaAcesso ,function(req, res, next) {
     });
 });
 
-router.post('/update-password', autenticacao.verificaAcesso, function(req, res, next) {
+router.post('/update-name', autenticacao.verificaAcesso, function(req, res, next) {
   let token = req.cookies.token;
   let username = '';
   if (token) {
@@ -154,14 +232,13 @@ router.post('/update-password', autenticacao.verificaAcesso, function(req, res, 
     res.redirect('/login');
   }
 
-  axios.put(`${aut}users/${username}?token=${token}`, req.body)
+   axios.put(`${aut}users/${username}?token=${token}`, req.body)
     .then(response => {
       res.redirect('/perfil');
     })
     .catch(error => {
       res.render('error', { error: error });
     });
-    res.redirect('/perfil')
 });
 
 router.get('/favoritos', autenticacao.verificaAcesso, async function(req, res, next) {
@@ -236,3 +313,6 @@ router.post('/acordao/unfavorite/:id', autenticacao.verificaAcesso, function(req
       res.render('error', { error: error });
     });
 });
+
+
+module.exports = router;

@@ -29,7 +29,8 @@ app.use((req, res, next) => {
   if (token) {
     jwt.verify(token, 'PROJETO-EW', (err, decoded) => {
       if (err) {
-        console.log(err);
+        res.clearCookie('token');
+        res.redirect('/login');
         res.locals.level = false;
         res.locals.loggedin = false;
       } else {

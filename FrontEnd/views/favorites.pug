@@ -69,13 +69,13 @@ block content
               td.action-buttons
                 form(method='POST', action="/acordao/unfavorite/" + acordao._id)
                   button(type='submit' class='w3-button w3-pink')
-                    i.fa.fa-heart
+                    i.fa.fa-heart 
                 if loggedin 
-                  td 
+                  if level
                     a.w3-button.w3-blue(href="/acordao/edit/" + acordao._id)
                       i.fa.fa-pencil-alt 
                     a.w3-button.w3-red(href="/acordao/delete/" + acordao._id)
-                      i.fa.fa-trash
+                      i.fa.fa-trash 
 
     else 
       p Lista de favoritos vazia

@@ -11,6 +11,12 @@ router.get('/', function(req, res) {
     .catch(error => res.jsonp(error));
 });
 
+router.get('/descritores', function(req, res) {
+  acordao.getAllDescritores()
+    .then(data => res.jsonp(data))
+    .catch(error => res.jsonp(error));
+});
+
 router.get('/tribunal/:id', function(req, res) {
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || 10;
@@ -20,11 +26,7 @@ router.get('/tribunal/:id', function(req, res) {
     .catch(error => res.jsonp(error));
 });
 
-router.get('/:id', function(req, res) {
-  acordao.lookUp(req.params.id)
-    .then(data => res.jsonp(data))
-    .catch(error => res.jsonp(error));
-});
+
 
 router.post('/', function(req, res) {
   acordao.insert(req.body)
@@ -40,6 +42,27 @@ router.put('/:id', function(req, res) {
 
 router.delete('/:id', function(req, res) {
   acordao.delete(req.params.id)
+    .then(data => res.jsonp(data))
+    .catch(error => res.jsonp(error));
+});
+
+router.get('/search', function(req, res) {
+  let sort = req.query.sort || '';
+  let descritor = req.query.descritor;
+  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.limit) || 10;
+  let tribunal = '';
+  if (req.query.tribunal) {
+    tribunal = req.query.tribunal;
+  }
+
+  acordao.searchByDescritor(descritor, tribunal, sort, page, limit)
+    .then(result => res.jsonp({ acordaos: result.data, totalPages: result.totalPages }))
+    .catch(error => res.jsonp(error));
+});
+
+router.get('/:id', function(req, res) {
+  acordao.lookUp(req.params.id)
     .then(data => res.jsonp(data))
     .catch(error => res.jsonp(error));
 });
