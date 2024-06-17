@@ -157,7 +157,7 @@ O servidor Autenticacao é responsavel pela gestão dos utilizadores.
 
 Em todas as pagina é apresentado o Layout, em que dependendo se utlizador esta autenticado ou não, ou se é o admin é diferente.
 
-![Admin](./imagens/Screenshot%20from%202024-06-17%2014-05-57.png) ![Sem User](./imagens/Screenshot%20from%202024-06-17%2014-09-05.png) ![User normal](./imagens/Screenshot%20from%202024-06-17%2014-09-23.png) 
+![Admin](./imagens/Layout.png) ![Sem User](./imagens/LayoutUser.png) ![User normal](./imagens/LayoutAdmin.png) 
 
 
 ### Registo de Conta
@@ -180,22 +180,22 @@ Na página de Login, a aplicação solicita o username e a password.
 
 ### Perfil
 
-Na pagina de perfil o utilizador consegue ver os seus dados e alterar o seu nome e password.
+Na pagina de perfil o utilizador consegue ver os seus dados e alterar o seu nome.
 
-![Login](./imagens/Screenshot%20from%202024-06-17%2014-25-24.png)
+![Login](./imagens/Perfil.png)
 
 
 ### Pagina Inicial
 
 Na pagina Inicial temos uma tabela com os acórdãos e um botao para adicionar aos favoritos.
 
-![Login](./imagens/Screenshot%20from%202024-06-17%2014-29-28.png)
+![Login](./imagens/PaginaInicial.png)
 
 ### Favoritos
 
 Na pagina dos favoritos temos uma tabela com os acordãos favoritos do utilizador e apresenta um botão para retirar dos favoritos 
 
-![Login](./imagens/Screenshot%20from%202024-06-17%2014-30-16.png)
+![Login](./imagens/Favoritos.png)
 
 ### Tribunais
 
@@ -232,3 +232,4 @@ Na página de criação da conta de administrador, é apresentado um formulário
 
 ## Conclusão
 
+Para concluir, dada a realização do trabalho prático, podemos dizer que este projeto ajudou a consolidar o conhecimento obtido na cadeira de Engenharia Web.  Através da criação de uma aplicação web para gestão de acórdãos jurídicos, abordamos diversas etapas fundamentais no desenvolvimento de software.
