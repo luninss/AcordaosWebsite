@@ -167,7 +167,7 @@ Na página de criação de conta, a aplicação solicita algumas informações p
 Depois de preencher o questionário e confirmar a criação, o sistema verifica se já exite algum utilizador com o mesmo email. Se for confirmado que existe, então a conta não é criada e aplicação informa o utilizador dessa ocorrência. 
 
 
-![Registo](./imagens/Screenshot%20from%202024-06-17%2014-19-36.png)
+![Registo](./imagens/Screenshot%20from%202024-06-17%2022-16-50.png)
 
 
 
@@ -206,10 +206,11 @@ Na página dos tribunais aparece uma lista dos tribunais.
 
 ### Adicionar Acórdão e Editar Acórdão
 
-A pagina de <b>Adicionar acordão</b> é so acessivel para os Admins, tendo que preencher todos os campos necessarios antes de enviar para o sistema.
+A pagina de <b>Adicionar acordão</b> é so acessivel para os Admins, tendo que preencher todos os campos necessarios antes de enviar para o sistema ou enviar um ficheiro.
 
-![Login](./imagens/Screenshot%20from%202024-06-17%2014-42-18.png)
+![Login](./imagens/Screenshot%20from%202024-06-17%2022-18-06.png)
 
+![Login](./imagens/Screenshot%20from%202024-06-17%2022-17-40.png)
 
 Na pagina de <b>editar o acórdão</b> aparece o mesmo formolario só que ja preenchido em que pode depois alterar o que for necessário.
 
