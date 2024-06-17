@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const acordao = require('../models/acordao');
 
+module.exports.countByTribunal= async id => {
+  return acordao.countDocuments({ tribunal: id }).exec();
+};
+
 module.exports.list = async (page, limit) => {
   const skip = (page - 1) * limit;
   const total = await acordao.countDocuments();
@@ -60,4 +64,8 @@ module.exports.insert = async data => {
 
 module.exports.delete = async id => {
   return await acordao.deleteOne({ _id: id }).exec();
+};
+
+module.exports.getAcordaosByIds = async ids => {
+  return await acordao.find({ _id: { $in: ids } }).exec();
 };

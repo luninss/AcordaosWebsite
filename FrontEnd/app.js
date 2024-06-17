@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to set loggedin and level variables
+// Middleware para variaveis de login e nivel de acesso
 app.use((req, res, next) => {
   const token = req.cookies.token;
   if (token) {
@@ -33,14 +33,12 @@ app.use((req, res, next) => {
         res.locals.level = false;
         res.locals.loggedin = false;
       } else {
-        console.log(decoded);
         res.locals.level = decoded.level === 'admin';
         res.locals.loggedin = true;
       }
       next();
     });
   } else {
-    console.log('no token');
     res.locals.level = false;
     res.locals.loggedin = false;
     next();

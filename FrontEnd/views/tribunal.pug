@@ -8,12 +8,10 @@ block content
       table.w3-table-all
         thead
           tr
-            th Número de Acordaos
             th Tribunal
         tbody
           each tribunal in tribunais
             tr
-              td= tribunal.numero_acordaos
               td
                 a(href='/acordao/tribunal/' + tribunal.tribunal)= tribunal.tribunal
 

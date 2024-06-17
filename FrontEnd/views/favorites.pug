@@ -34,6 +34,7 @@ block content
     header.w3-light-blue
       h2.w3-center Acordãos #{tribunal}
     .w3-container
+    if acordaos
       table.w3-table-all
         thead
           tr
@@ -42,9 +43,7 @@ block content
             th.fixed-width Data
             th.fixed-width Relator
             th.descritores-width Descritores
-            if loggedin 
-              if level
-                th.fixed-width Ações 
+            th.fixed-width Ações 
         tbody
           each acordao in acordaos
             tr
@@ -68,20 +67,15 @@ block content
                 else 
                   span - - - 
               td.action-buttons
-                form(method='POST', action="/acordao/favorite/" + acordao._id)
+                form(method='POST', action="/acordao/unfavorite/" + acordao._id)
                   button(type='submit' class='w3-button w3-pink')
-                    i.fa.fa-heart 
+                    i.fa.fa-heart
                 if loggedin 
-                  if level
+                  td 
                     a.w3-button.w3-blue(href="/acordao/edit/" + acordao._id)
                       i.fa.fa-pencil-alt 
                     a.w3-button.w3-red(href="/acordao/delete/" + acordao._id)
-                      i.fa.fa-trash 
+                      i.fa.fa-trash
 
-  .pagination
-    .w3-left
-      if page > 1
-        button(type='button', onclick=`window.location.href='/?page=${page-1}&limit=${limit}'`) &lt; Anterior
-    .w3-right
-      if page < totalPages
-        button(type='button', onclick=`window.location.href='/?page=${page+1}&limit=${limit}'`) Próximo &gt;
+    else 
+      p Lista de favoritos vazia

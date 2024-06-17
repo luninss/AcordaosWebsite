@@ -12,6 +12,7 @@ module.exports.verificaAutenticacao = (req, res, next) => {
     if (token) {
         jwt.verify(token, "EngWeb2023", function (e, payload) {
             if (e) { // ocorreu um erro
+                console.log(e)
                 res.redirect('/login')
             }
             else {
@@ -21,6 +22,7 @@ module.exports.verificaAutenticacao = (req, res, next) => {
             }
         })
     } else {
+        console.log('sem token')
         req.session.redirectTo = req.originalUrl
         res.redirect('/login')
     }
@@ -31,6 +33,7 @@ module.exports.verificaAdmin = (req, res, next) => {
     if (token) {
         jwt.verify(token, "EngWeb2023", function (e, payload) {
             if (e) { // ocorreu um erro
+                console.log(e)
                 res.redirect('/login')
             } else {
                 req.idUser = payload._id
@@ -38,11 +41,13 @@ module.exports.verificaAdmin = (req, res, next) => {
                 if (req.isAdmin)
                     next()
                 else
+                    console.log('sem permissões')
                     res.redirect('/login')
             }
         })
     } else {
         req.session.redirectTo = req.originalUrl
+        console.log('sem token')
         res.redirect('/login')
     }
 }

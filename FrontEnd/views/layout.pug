@@ -4,6 +4,7 @@ html
     title Acordãos
     meta(charset='utf-8')
     link(rel='stylesheet', href='/stylesheets/w3.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css')
     style.
       body, html {
         height: 100%;
@@ -61,6 +62,7 @@ html
         if level
           a.sidebar-item(href='/acordao/adicionar') Adicionar Acórdão
           a.sidebar-item(href='/tribunal/adicionar') Adicionar Tribunal
+          a.sidebar-item(href='/signupADMIN') Adicionar Administrador
       else 
         a.sidebar-item(href='/login') Login
         a.sidebar-item(href='/signup') Sign Up

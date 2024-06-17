@@ -1,17 +1,19 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
+var autenticao = require('../verifyAcess/acess');
+const { verificaAdmin } = require('../verifyAcess/acess');
 
 const api = 'http://localhost:16000/';
 
 
 
-router.get('/tribunal/:id', function(req, res, next) {
+router.get('/tribunal/:id', async function(req, res, next) {
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || 10;
   tribunal = 'do tribunal ' + req.params.id;
 
-  axios.get(`${api}acordaos/tribunal/${req.params.id}`)
+  await axios.get(`${api}acordaos/tribunal/${req.params.id}`)
     .then(response => {
       res.render('index', { acordaos: response.data.acordaos, page: page, totalPages: response.data.totalPages});
     })
@@ -22,7 +24,7 @@ router.get('/tribunal/:id', function(req, res, next) {
 
 
 
-router.get('/adicionar', function(req, res, next) {
+router.get('/adicionar', autenticao.verificaAdmin, function(req, res, next) {
   axios.get(`${api}tribunais`)
       .then(response => {
         res.render('newacordao', { tribunais: response.data.tribunais});
@@ -32,8 +34,8 @@ router.get('/adicionar', function(req, res, next) {
       });
 });
 
-router.get('/edit/:idAcordao', function(req, res, next) {
-  axios.get(`${api}acordaos/${req.params.idAcordao}`)
+router.get('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, res, next) {
+  await axios.get(`${api}acordaos/${req.params.idAcordao}`)
       .then(resp=>{
         var Acordao = resp.data
         axios.get(`${api}tribunais`)
@@ -49,10 +51,10 @@ router.get('/edit/:idAcordao', function(req, res, next) {
       })
 });
 
-router.post('/edit/:idAcordao', function(req, res, next) {
+router.post('/edit/:idAcordao', autenticao.verificaAdmin, async function(req, res, next) {
   try {
     const acordaoData = {
-      _id: req.body._id,
+      _id: req.params.idAcordao,
       processo: req.body.processo,
       data_acordao: req.body.data_acordao,
       tribunal: req.body.tribunal,
@@ -75,7 +77,7 @@ router.post('/edit/:idAcordao', function(req, res, next) {
         sumario: req.body['outros_campos[sumario]'],
       },
     };
-    axios.put(`${api}acordaos/${req.params.idAcordao}`,acordaoData)
+    await axios.put(`${api}acordaos/${req.params.idAcordao}`,acordaoData)
       .then(resp=>{
           console.log(resp.data)
           res.redirect('/');
@@ -89,8 +91,8 @@ router.post('/edit/:idAcordao', function(req, res, next) {
 });
 
 
-router.get('/delete/:idAcordao', function(req, res, next) {
-  axios.delete(`${api}acordaos/${req.params.idAcordao}`)
+router.get('/delete/:idAcordao', verificaAdmin, async function(req, res, next) {
+  await axios.delete(`${api}acordaos/${req.params.idAcordao}`)
       .then(resp=>{
           res.redirect('/')
       })
@@ -100,7 +102,7 @@ router.get('/delete/:idAcordao', function(req, res, next) {
 });
 
 
-router.post('/adicionar', async (req, res) => {
+router.post('/adicionar',autenticao.verificaAdmin, async (req, res) => {
   try {
     const acordaoData = {
       _id: req.body._id,
@@ -126,7 +128,7 @@ router.post('/adicionar', async (req, res) => {
         sumario: req.body['outros_campos[sumario]'],
       },
     };
-    axios.post(`${api}acordaos/`,acordaoData)
+    await axios.post(`${api}acordaos/`,acordaoData)
       .then(resp=>{
           console.log(resp.data)
       })
@@ -139,12 +141,11 @@ router.post('/adicionar', async (req, res) => {
   }
 });
 
-/* GET home page. */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || 10;
 
-  axios.get(`${api}acordaos/${req.params.id}`)
+  await axios.get(`${api}acordaos/${req.params.id}`)
     .then(response => {
       res.render('acordao', { acordao : response.data});
     })

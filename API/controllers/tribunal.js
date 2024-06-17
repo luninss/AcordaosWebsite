@@ -28,7 +28,6 @@ module.exports.insert = async (id) => {
   try {
     const newTribunal = new tribunal({
       tribunal: id,
-      numero_acordaos: 0
     });
     console.log('Saving tribunal:', newTribunal);  // Debugging line
     return await newTribunal.save();

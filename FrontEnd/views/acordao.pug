@@ -15,7 +15,8 @@ block content
             tr
                 td #{acordao.processo}
                 td #{acordao.data_acordao}
-                td #{acordao.tribunal}
+                td 
+                   a(href=`/acordao/tribunal/${acordao.tribunal}`)= acordao.tribunal
                 td #{acordao.relator}
                 td
                     each desc in acordao.descritores

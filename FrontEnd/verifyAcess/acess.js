@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken')
 
 module.exports.verificaAcesso = function (req, res, next) {
-	var myToken = req.query.token || req.body.token
+	var myToken = req.cookies.token
 	if (myToken) {
 		jwt.verify(myToken, "PROJETO-EW", function (e, payload) {
 			if (e) {
@@ -15,12 +15,13 @@ module.exports.verificaAcesso = function (req, res, next) {
 		})
 	}
 	else {
+		console.log('sem token')
 		res.redirect('/login')
 	}
 }
 
 module.exports.verificaAdmin = function (req, res, next) {
-	var myToken = req.query.token || req.body.token
+	var myToken = req.cookies.token
 	if (myToken) {
 		jwt.verify(myToken, "PROJETO-EW", function (e, payload) {
 			if (e) {
@@ -30,7 +31,8 @@ module.exports.verificaAdmin = function (req, res, next) {
 				if(payload.level === 'admin'){
 					next()
 				}else{
-					console.log('Rota restrita.');
+					console.log(payload.level)
+					console.log('Rota restritaa.');
 					res.status(403).jsonp({error: 'Rota restrita.'})
 				}
 			}
