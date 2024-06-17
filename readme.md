@@ -3,6 +3,10 @@
 ## Introdução
 A proposta do enunciado escolhida pelo grupo foi a criação de uma aplicação Web de acordão juríridos.
 
+## Utilização
+
+É necessário ir para as pastas Autenticacao, API e FrontEnd e realizar ```npm i```e ```npm start``` para o website correr de forma pretendida.
+
 ## Tratamento do datasets
 
 Para o povoamento da base de dados de aplicação, foram fornecidos 14 datasets reais provenientes dos diversos tribunais. Esses datasets continham informações sobre acórdãos, mas com formatos e nomes de campos variados. Foi necessário desenvolver um script <b>treatDataset.py</b> de tratamento para unificar e padronizar esses dados antes de inseri-los na base de dados da aplicação.
