@@ -233,4 +233,4 @@ Na página de criação da conta de administrador, é apresentado um formulário
 
 ## Conclusão
 
-Para concluir, dada a realização do trabalho prático, podemos dizer que este projeto ajudou a consolidar o conhecimento obtido na cadeira de Engenharia Web.  Através da criação de uma aplicação web para gestão de acórdãos jurídicos, abordamos diversas etapas fundamentais no desenvolvimento de software.
+Para concluir, dada a realização do trabalho prático, apesar de termos problemas na tratação do dataset e no Docker, podemos dizer que este projeto ajudou a consolidar o conhecimento obtido na cadeira de Engenharia Web.  Através da criação de uma aplicação web para gestão de acórdãos jurídicos, abordamos diversas etapas fundamentais no desenvolvimento de software.
